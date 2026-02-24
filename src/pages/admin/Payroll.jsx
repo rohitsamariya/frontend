@@ -193,7 +193,7 @@ const Payroll = () => {
                     <div>
                         <h3 className="text-2xl font-black text-gray-900 tracking-tight flex items-center gap-4">
                             <span className="w-12 h-12 rounded-2xl bg-linear-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center shadow-lg shadow-indigo-200"><ClipboardList size={24} /></span>
-                            Tenure Cumulative Registry
+                            Monthly Payroll Registry
                         </h3>
                         <p className="text-[12px] font-bold text-gray-400 uppercase tracking-[0.2em] mt-2 ml-1">Automated Multi-Step Calculation & Dispatch Engine</p>
                     </div>
@@ -211,11 +211,10 @@ const Payroll = () => {
                             <tr className="bg-gray-50/30 border-b text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">
                                 <th className="text-left px-4 sm:px-10 py-6">Employee</th>
                                 <th className="text-left px-6 py-6 font-black hidden lg:table-cell">Joining Date</th>
-                                <th className="text-right px-6 py-6 hidden md:table-cell">Gross Salary</th>
-                                <th className="text-center px-6 py-6 hidden sm:table-cell">Tenure (Mos)</th>
-                                <th className="text-right px-6 py-6 bg-indigo-50/20 hidden lg:table-cell">Cumul. Gross</th>
-                                <th className="text-right px-6 py-6 hidden md:table-cell">Cumul. Ded.</th>
-                                <th className="text-right px-4 sm:px-6 py-6 font-black text-indigo-600">Cumul. Net</th>
+                                <th className="text-right px-6 py-6 hidden md:table-cell">Monthly CTC</th>
+                                <th className="text-right px-6 py-6 hidden md:table-cell">Deductions</th>
+                                <th className="text-right px-4 sm:px-6 py-6 font-black text-indigo-600">Net Pay</th>
+                                <th className="text-center px-6 py-6 hidden lg:table-cell">Processed Date</th>
                                 <th className="text-center px-4 sm:px-6 py-6">Status</th>
                                 <th className="text-center px-4 sm:px-8 py-6">Actions</th>
                             </tr>
@@ -231,7 +230,7 @@ const Payroll = () => {
                                 </tr>
                             ) : (
                                 payrolls.map((row, idx) => {
-                                    const { user, joiningDate, monthlyCTC, totalMonthsEligible, cumulativeGross, cumulativeDeductions, cumulativeNet, status, payrollId } = row;
+                                    const { user, joiningDate, monthlyCTC, netSalary, totalDeductions, processedAt, status, payrollId } = row;
                                     const isProcessed = status === 'PROCESSED + SENT';
                                     return (
                                         <tr key={user._id} className="hover:bg-indigo-50/30 transition-all duration-300 group">
@@ -259,13 +258,12 @@ const Payroll = () => {
                                             </td>
                                             <td className="px-6 py-8 text-gray-600 font-medium hidden lg:table-cell">{formatDate(joiningDate)}</td>
                                             <td className="px-6 py-8 text-right font-bold text-gray-500 tabular-nums hidden md:table-cell">{fmt(monthlyCTC)}</td>
-                                            <td className="px-6 py-8 text-center hidden sm:table-cell">
-                                                <span className="px-3 py-1 bg-gray-100 rounded-full text-xs font-black text-gray-600">{totalMonthsEligible}</span>
-                                            </td>
-                                            <td className="px-6 py-8 text-right font-bold text-gray-700 bg-indigo-50/10 tabular-nums hidden lg:table-cell">{fmt(cumulativeGross)}</td>
-                                            <td className="px-6 py-8 text-right font-bold text-red-400 tabular-nums hidden md:table-cell">{fmt(cumulativeDeductions)}</td>
+                                            <td className="px-6 py-8 text-right font-bold text-red-400 tabular-nums hidden md:table-cell">{fmt(totalDeductions)}</td>
                                             <td className="px-4 sm:px-6 py-8 text-right font-black text-indigo-600 text-base sm:text-lg tabular-nums tracking-tighter">
-                                                {fmt(cumulativeNet)}
+                                                {fmt(netSalary)}
+                                            </td>
+                                            <td className="px-6 py-8 text-center text-gray-500 font-bold hidden lg:table-cell">
+                                                {processedAt ? DateTime.fromISO(processedAt).toFormat('dd-MMM-yyyy') : '—'}
                                             </td>
                                             <td className="px-4 sm:px-6 py-8 text-center">
                                                 <Badge

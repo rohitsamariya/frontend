@@ -6,7 +6,7 @@ import Card from '../../components/UI/Card';
 import Button from '../../components/UI/Button';
 
 const AdminProfile = () => {
-    const { user } = useAuth();
+    const { user, updateUserContext } = useAuth();
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
@@ -82,7 +82,10 @@ const AdminProfile = () => {
 
         setUploading(true);
         try {
-            await api.post(`/admin/users/${user._id}/profile-image`, formData);
+            const res = await api.post(`/admin/users/${user._id}/profile-image`, formData);
+            if (res.data && res.data.success) {
+                updateUserContext({ profileImage: res.data.data }); // Update context to trigger sidebar update
+            }
             await fetchUserData(); // Refresh to show new image
         } catch (error) {
             console.error("Error uploading image", error);
@@ -145,7 +148,7 @@ const AdminProfile = () => {
                                 </div>
 
                                 {uploading && (
-                                    <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/50">
                                         <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                                     </div>
                                 )}
