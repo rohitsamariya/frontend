@@ -77,7 +77,7 @@ const EmployeeLayout = () => {
                         <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold border-2 border-white shadow-sm overflow-hidden">
                             {user?.profileImage ? (
                                 <img
-                                    src={`${import.meta.env.VITE_API_URL.replace('/api', '')}${user.profileImage}`}
+                                    src={`${(import.meta.env.VITE_API_URL || '').replace('/api', '')}${user.profileImage}`}
                                     alt={user?.name}
                                     className="w-full h-full object-cover"
                                 />
