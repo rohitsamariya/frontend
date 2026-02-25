@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import api from "../services/api";
+import Loader from "../components/UI/Loader";
 
 const AuthContext = createContext();
 
@@ -80,7 +81,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={{ user, login, logout, setAuthenticatedUser, updateUserContext, isAuthenticated: !!user, loading }}>
-            {!loading && children}
+            {loading ? <Loader fullScreen /> : children}
         </AuthContext.Provider>
     );
 };
