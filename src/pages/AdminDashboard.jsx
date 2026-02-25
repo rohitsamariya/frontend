@@ -48,13 +48,16 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState({
-        totalEmployees: 0,
+        totalUsers: 0,
         activeBranches: 0,
+        activeUsers: 0,
+        inactiveUsers: 0,
         todayAttendance: 0,
         pendingApprovals: 0,
         violationsThisMonth: 0,
         pendingCorrections: 0,
-        onboardingPending: 0
+        onboardingPending: 0,
+        invitedPending: 0
     });
     const [branches, setBranches] = useState([]);
 
@@ -68,7 +71,7 @@ const AdminDashboard = () => {
 
                 setStats({
                     ...overview,
-                    pendingApprovals: (overview.onboardingPending || 0) + (overview.pendingCorrections || 0)
+                    pendingApprovals: (overview.onboardingPending || 0) + (overview.pendingCorrections || 0) + (overview.invitedPending || 0)
                 });
                 setBranches(branchPerf || []);
             } catch (error) {
@@ -116,11 +119,11 @@ const AdminDashboard = () => {
             {/* Metrics Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <MetricCard
-                    title="Total Employees"
-                    value={stats.totalEmployees}
+                    title="Total Users"
+                    value={stats.totalUsers}
                     icon={Icons.Users}
                     colorClass="bg-indigo-50 text-indigo-600"
-                    subtext={`${stats.activeUsers} Active • ${stats.inactiveUsers} Inactive`}
+                    subtext={`${stats.activeUsers} Active • ${stats.inactiveUsers} Inactive • ${stats.invitedPending} Invited`}
                 />
                 <MetricCard
                     title="Attendance Today"
@@ -141,7 +144,7 @@ const AdminDashboard = () => {
                     value={stats.pendingApprovals}
                     icon={Icons.Check}
                     colorClass="bg-amber-50 text-amber-600"
-                    subtext={`${stats.onboardingPending} Onboarding • ${stats.pendingCorrections} Corrections`}
+                    subtext={`${stats.onboardingPending} Onboarding • ${stats.invitedPending} Invites • ${stats.pendingCorrections} Corrections`}
                 />
             </div>
 
