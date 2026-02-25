@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import OnboardingLayout from '../layouts/OnboardingLayout';
 import Step1BasicInfo from './onboarding/Step1BasicInfo';

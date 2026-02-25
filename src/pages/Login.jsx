@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import Button from "../components/UI/Button";
@@ -6,10 +6,20 @@ import Button from "../components/UI/Button";
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { login } = useAuth();
+    const { login, user, isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+
+    // Auto-redirect if already logged in
+    useEffect(() => {
+        if (isAuthenticated && user) {
+            if (user.role === "ADMIN") navigate("/admin/dashboard");
+            else if (user.role === "HR") navigate("/hr/dashboard");
+            else if (user.role === "MANAGER") navigate("/manager/dashboard");
+            else navigate("/employee/dashboard");
+        }
+    }, [isAuthenticated, user, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
