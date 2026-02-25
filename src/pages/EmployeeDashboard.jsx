@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import employeeService from "../services/employeeService";
+import { getMediaUrl } from "../utils/url";
 import MetricCard from "../components/UI/MetricCard";
 import StatusBadge from "../components/UI/StatusBadge";
 import Loader from "../components/UI/Loader";
@@ -184,22 +185,12 @@ const EmployeeDashboard = () => {
         return DateTime.fromISO(dateString).toFormat(format);
     };
 
-    // Derived Status for display
+    const statusVariant = (liveStatus?.currentState === 'WORKING') ? 'success' : (liveStatus?.currentState === 'COMPLETED' ? 'info' : 'neutral');
+
     let currentStatusDisplay = 'Not Started';
-    let statusVariant = 'neutral';
-
-    if (liveStatus?.currentState === 'WORKING') {
-        currentStatusDisplay = 'Working';
-        statusVariant = 'success';
-    } else if (liveStatus?.currentState === 'COMPLETED') {
-        currentStatusDisplay = 'Completed';
-        statusVariant = 'info';
-    } else if (liveStatus?.currentState === 'NOT_STARTED') {
-        currentStatusDisplay = 'Off Duty';
-        statusVariant = 'neutral';
-    }
-
-    const apiBase = (import.meta.env.VITE_API_URL || '').replace('/api', '');
+    if (liveStatus?.currentState === 'WORKING') currentStatusDisplay = 'Working';
+    else if (liveStatus?.currentState === 'COMPLETED') currentStatusDisplay = 'Completed';
+    else if (liveStatus?.currentState === 'NOT_STARTED') currentStatusDisplay = 'Off Duty';
 
     return (
         <div className="max-w-7xl mx-auto space-y-8 pb-12">
@@ -212,7 +203,7 @@ const EmployeeDashboard = () => {
                     <div className="flex items-center gap-6">
                         <div className="w-24 h-24 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 shadow-sm shrink-0 border-4 border-white overflow-hidden">
                             {profile.profileImage ? (
-                                <img src={`${apiBase}${profile.profileImage}`} alt={profile.name} className="w-full h-full object-cover" />
+                                <img src={getMediaUrl(profile.profileImage)} alt={profile.name} className="w-full h-full object-cover" />
                             ) : (
                                 <span className="text-3xl font-black">{profile.name.charAt(0)}</span>
                             )}

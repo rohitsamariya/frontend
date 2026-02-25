@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import employeeService from "../services/employeeService";
+import { getMediaUrl } from "../utils/url";
 import { DateTime } from "luxon";
 
 const Icons = {
@@ -64,7 +65,7 @@ const EmployeePayroll = () => {
         if (!payroll || !payroll.salarySlipUrl) return;
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${import.meta.env.VITE_API_URL}${payroll.salarySlipUrl.replace('/api', '')}`, {
+            const response = await fetch(getMediaUrl(payroll.salarySlipUrl), {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`

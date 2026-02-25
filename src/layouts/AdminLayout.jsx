@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getMediaUrl } from '../utils/url';
 import {
     LayoutDashboard,
     Building2,
@@ -84,7 +85,7 @@ const AdminLayout = () => {
                     <div className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50 border border-gray-100">
                         <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold border-2 border-white shadow-sm overflow-hidden">
                             {user?.profileImage ? (
-                                <img src={`${(import.meta.env.VITE_API_URL || '').replace('/api', '')}${user.profileImage}`} alt="Profile" className="w-full h-full object-cover" />
+                                <img src={getMediaUrl(user.profileImage)} alt="Profile" className="w-full h-full object-cover" />
                             ) : (
                                 user?.name?.charAt(0) || 'A'
                             )}

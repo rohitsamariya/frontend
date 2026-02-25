@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import api from '../../services/api';
+import { getMediaUrl } from '../../utils/url';
 import PageHeader from "../../components/UI/PageHeader";
 import Card from "../../components/UI/Card";
 import Button from "../../components/UI/Button";
@@ -238,7 +239,7 @@ const Payroll = () => {
                                                 <div className="flex items-center gap-3 sm:gap-5">
                                                     {user.profileImage ? (
                                                         <img
-                                                            src={`${(import.meta.env.VITE_API_URL || '').replace('/api', '')}${user.profileImage}`}
+                                                            src={getMediaUrl(user.profileImage)}
                                                             alt={user.name}
                                                             className="w-10 h-10 sm:w-14 sm:h-14 shrink-0 rounded-full object-cover shadow-xl shadow-indigo-100 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 ring-2 ring-white"
                                                         />

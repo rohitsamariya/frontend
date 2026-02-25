@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
+import { getMediaUrl } from '../../utils/url';
 import PageHeader from '../../components/UI/PageHeader';
 import Card from '../../components/UI/Card';
 import Button from '../../components/UI/Button';
@@ -104,8 +105,6 @@ const AdminProfile = () => {
     if (loading) return <div className="p-8 text-center text-gray-500">Loading Profile...</div>;
     if (!userData) return <div className="p-8 text-center text-red-500">Profile data not available</div>;
 
-    const apiBase = (import.meta.env.VITE_API_URL || '').replace('/api', '');
-
     return (
         <div className="max-w-4xl mx-auto space-y-6 pb-12">
             {/* TOP BAR */}
@@ -134,7 +133,7 @@ const AdminProfile = () => {
                                 className={`w-28 h-28 rounded-full border-4 border-white overflow-hidden shadow-xl cursor-pointer relative ${uploading ? 'opacity-50' : 'hover:ring-4 hover:ring-indigo-200 transition-all'}`}
                             >
                                 {userData.profileImage ? (
-                                    <img src={`${apiBase}${userData.profileImage}`} alt={userData.name} className="w-full h-full object-cover" />
+                                    <img src={getMediaUrl(userData.profileImage)} alt={userData.name} className="w-full h-full object-cover" />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-4xl font-bold bg-linear-to-br from-indigo-100 to-purple-100 text-indigo-700">
                                         {userData.name.charAt(0)}

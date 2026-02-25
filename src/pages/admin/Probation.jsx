@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../services/api';
+import { getMediaUrl } from '../../utils/url';
 import PageHeader from "../../components/UI/PageHeader";
 import Card from "../../components/UI/Card";
 import DataTable from "../../components/UI/DataTable";
@@ -53,7 +54,7 @@ const Probation = () => {
                 <div className="flex items-center space-x-3">
                     <div className="shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold border border-indigo-200">
                         {row.profileImage ? (
-                            <img src={`${(import.meta.env.VITE_API_URL || '').replace('/api', '')}${row.profileImage}`} alt="" className="h-10 w-10 rounded-full object-cover" />
+                            <img src={getMediaUrl(row.profileImage)} alt="" className="h-10 w-10 rounded-full object-cover" />
                         ) : (
                             row.name.charAt(0).toUpperCase()
                         )}

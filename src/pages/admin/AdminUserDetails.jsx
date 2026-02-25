@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import branchService from '../../services/branchService';
+import { getMediaUrl } from '../../utils/url';
 import PageHeader from "../../components/UI/PageHeader";
 import Card from "../../components/UI/Card";
 import Button from "../../components/UI/Button";
@@ -151,7 +152,6 @@ const AdminUserDetails = () => {
     if (!userData) return <div className="p-8 text-center text-red-500">User not found</div>;
 
     const stats = userData.attendanceSummary || { totalPresent: 0, totalHalfDays: 0, totalAbsent: 0 };
-    const apiBase = (import.meta.env.VITE_API_URL || '').replace('/api', '');
 
     return (
         <div className="max-w-6xl mx-auto space-y-6 pb-12">
@@ -179,7 +179,7 @@ const AdminUserDetails = () => {
                         <div className="relative group shrink-0">
                             <div className="w-28 h-28 rounded-full border-4 border-white overflow-hidden bg-white shadow-xl">
                                 {userData.profileImage ? (
-                                    <img src={`${apiBase}${userData.profileImage}`} alt={userData.name} className="w-full h-full object-cover" />
+                                    <img src={getMediaUrl(userData.profileImage)} alt={userData.name} className="w-full h-full object-cover" />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-4xl font-bold bg-linear-to-br from-slate-100 to-teal-100 text-slate-700">
                                         {userData.name.charAt(0)}
@@ -379,7 +379,7 @@ const AdminUserDetails = () => {
                                                         className="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded-lg" title="Preview">
                                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                                     </button>
-                                                    <a href={`${apiBase}${doc.fileUrl}`} download className="p-1.5 text-gray-500 hover:bg-gray-100 rounded-lg" title="Download">
+                                                    <a href={getMediaUrl(doc.fileUrl)} download className="p-1.5 text-gray-500 hover:bg-gray-100 rounded-lg" title="Download">
                                                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                                                     </a>
                                                 </>

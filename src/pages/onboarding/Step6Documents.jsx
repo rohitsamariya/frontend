@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../services/api';
+import { getMediaUrl } from '../../utils/url';
 import Button from '../../components/UI/Button';
 
 const Step6Documents = ({ user, onSuccess, onBack }) => {
@@ -12,12 +13,12 @@ const Step6Documents = ({ user, onSuccess, onBack }) => {
         licenceCert: null
     });
     const [previews, setPreviews] = useState({
-        aadhaarPhoto: user?.aadhaarPhoto || null,
-        panPhoto: user?.panPhoto || null,
-        bankProof: user?.bankProof || null,
-        educationCert: user?.educationCert || null,
-        profilePhoto: user?.profilePhoto || null,
-        licenceCert: user?.licenceCert || null
+        aadhaarPhoto: user?.documents?.find(d => d.type === 'AADHAAR')?.fileUrl || null,
+        panPhoto: user?.documents?.find(d => d.type === 'PAN')?.fileUrl || null,
+        bankProof: user?.documents?.find(d => d.type === 'BANK_PROOF')?.fileUrl || null,
+        educationCert: user?.documents?.find(d => d.type === 'EDUCATION')?.fileUrl || null,
+        profilePhoto: user?.profileImage || null,
+        licenceCert: user?.documents?.find(d => d.type === 'LICENCE')?.fileUrl || null
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -38,10 +39,12 @@ const Step6Documents = ({ user, onSuccess, onBack }) => {
         setError(null);
 
         // Validation - at least ensure we have required docs either in new files or already uploaded
-        if ((!files.aadhaarPhoto && !user.aadhaarPhoto) ||
-            (!files.panPhoto && !user.panPhoto) ||
-            (!files.bankProof && !user.bankProof) ||
-            (!files.educationCert && !user.educationCert)) {
+        const hasDoc = (type) => user?.documents?.some(d => d.type === type);
+
+        if ((!files.aadhaarPhoto && !hasDoc('AADHAAR')) ||
+            (!files.panPhoto && !hasDoc('PAN')) ||
+            (!files.bankProof && !hasDoc('BANK_PROOF')) ||
+            (!files.educationCert && !hasDoc('EDUCATION'))) {
             setError("Please upload all mandatory documents (Aadhaar, PAN, Bank Proof, Education Certificate)");
             setLoading(false);
             return;
@@ -92,7 +95,7 @@ const Step6Documents = ({ user, onSuccess, onBack }) => {
                             </label>
                             <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                                 {previews[name] ? (
-                                    <img src={previews[name].startsWith('blob:') || previews[name].startsWith('http') ? previews[name] : `${(import.meta.env.VITE_API_URL || '').replace('/api', '')}${previews[name]}`} alt={label} className={`mx-auto h-32 object-cover mb-2 ${name === 'profilePhoto' ? 'rounded-full' : ''}`} />
+                                    <img src={previews[name].startsWith('blob:') ? previews[name] : getMediaUrl(previews[name])} alt={label} className={`mx-auto h-32 object-cover mb-2 ${name === 'profilePhoto' ? 'rounded-full' : ''}`} />
                                 ) : (
                                     <div className="text-gray-400 py-4 italic">
                                         {required ? 'No file selected' : 'Optional'}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getMediaUrl } from '../utils/url';
 import {
     LayoutDashboard,
     CalendarCheck,
@@ -77,7 +78,7 @@ const EmployeeLayout = () => {
                         <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold border-2 border-white shadow-sm overflow-hidden">
                             {user?.profileImage ? (
                                 <img
-                                    src={`${(import.meta.env.VITE_API_URL || '').replace('/api', '')}${user.profileImage}`}
+                                    src={getMediaUrl(user.profileImage)}
                                     alt={user?.name}
                                     className="w-full h-full object-cover"
                                 />
