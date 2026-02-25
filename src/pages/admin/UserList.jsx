@@ -101,6 +101,23 @@ const UserList = () => {
         }
     };
 
+    const handleResendInvite = async (id, isInviteModel = true) => {
+        try {
+            if (isInviteModel) {
+                await api.post(`/admin/invite/${id}/resend`);
+            } else {
+                // For users in onboarding, we might need a different endpoint or use the user ID
+                // But since invite uses OfferInvite ID, let's stick to that for now if possible
+                // Actually, let's just implement it for the Invited tab first as requested
+                alert("Resend feature primarily for invited tab currently.");
+                return;
+            }
+            alert("Invitation email resent successfully!");
+        } catch (error) {
+            alert(error.response?.data?.error || "Failed to resend invite");
+        }
+    };
+
     const handleDeactivate = async (id) => {
         if (!window.confirm("Are you sure you want to deactivate this user?")) return;
         try {
@@ -198,7 +215,8 @@ const UserList = () => {
                         const link = `${window.location.origin}/register?token=${row.rawToken}&email=${row.email}`;
                         navigator.clipboard.writeText(link);
                         alert('Link copied!');
-                    }}>Copy Link</Button>
+                    }}>Link</Button>
+                    <Button size="sm" variant="success" onClick={() => handleResendInvite(row._id)}>Resend</Button>
                     <Button size="sm" variant="primary" onClick={() => handleEditInvite(row)}>Edit</Button>
                     <Button size="sm" variant="danger" onClick={() => handleCancelInvite(row._id)}>Cancel</Button>
                 </div>
