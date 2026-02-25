@@ -199,7 +199,7 @@ const EmployeeDashboard = () => {
         statusVariant = 'neutral';
     }
 
-    const apiBase = import.meta.env.VITE_API_URL.replace('/api', '');
+    const apiBase = (import.meta.env.VITE_API_URL || '').replace('/api', '');
 
     return (
         <div className="max-w-7xl mx-auto space-y-8 pb-12">

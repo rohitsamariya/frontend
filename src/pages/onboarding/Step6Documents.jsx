@@ -92,7 +92,7 @@ const Step6Documents = ({ user, onSuccess, onBack }) => {
                             </label>
                             <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                                 {previews[name] ? (
-                                    <img src={previews[name].startsWith('blob:') || previews[name].startsWith('http') ? previews[name] : `${import.meta.env.VITE_API_URL.replace('/api', '')}${previews[name]}`} alt={label} className={`mx-auto h-32 object-cover mb-2 ${name === 'profilePhoto' ? 'rounded-full' : ''}`} />
+                                    <img src={previews[name].startsWith('blob:') || previews[name].startsWith('http') ? previews[name] : `${(import.meta.env.VITE_API_URL || '').replace('/api', '')}${previews[name]}`} alt={label} className={`mx-auto h-32 object-cover mb-2 ${name === 'profilePhoto' ? 'rounded-full' : ''}`} />
                                 ) : (
                                     <div className="text-gray-400 py-4 italic">
                                         {required ? 'No file selected' : 'Optional'}

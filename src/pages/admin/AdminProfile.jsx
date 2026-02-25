@@ -104,7 +104,7 @@ const AdminProfile = () => {
     if (loading) return <div className="p-8 text-center text-gray-500">Loading Profile...</div>;
     if (!userData) return <div className="p-8 text-center text-red-500">Profile data not available</div>;
 
-    const apiBase = import.meta.env.VITE_API_URL.replace('/api', '');
+    const apiBase = (import.meta.env.VITE_API_URL || '').replace('/api', '');
 
     return (
         <div className="max-w-4xl mx-auto space-y-6 pb-12">

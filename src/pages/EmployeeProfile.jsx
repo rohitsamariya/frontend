@@ -118,7 +118,7 @@ const EmployeeProfile = () => {
     if (!userData || !userData.profile) return <div className="p-8 text-center text-red-500">Profile data not available</div>;
 
     const stats = userData.attendance || { totalPresent: 0, totalHalfDays: 0, totalAbsent: 0 };
-    const apiBase = import.meta.env.VITE_API_URL.replace('/api', '');
+    const apiBase = (import.meta.env.VITE_API_URL || '').replace('/api', '');
     const profile = userData.profile;
 
     return (

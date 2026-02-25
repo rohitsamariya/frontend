@@ -25,7 +25,7 @@ const DocumentPreviewModal = ({ isOpen, onClose, docUrl, docType }) => {
                 <div className="flex-1 overflow-auto p-4 flex items-center justify-center bg-gray-50">
                     {isImage ? (
                         <img
-                            src={docUrl.startsWith('http') ? docUrl : `${import.meta.env.VITE_API_URL.replace('/api', '')}${docUrl}`}
+                            src={docUrl.startsWith('http') ? docUrl : `${(import.meta.env.VITE_API_URL || '').replace('/api', '')}${docUrl}`}
                             alt={docType}
                             className="max-w-full max-h-full object-contain shadow-lg"
                         />
@@ -39,7 +39,7 @@ const DocumentPreviewModal = ({ isOpen, onClose, docUrl, docType }) => {
                             <h4 className="text-xl font-semibold text-gray-800 mb-2">PDF Document</h4>
                             <p className="text-gray-600 mb-6">This document cannot be previewed directly here.</p>
                             <a
-                                href={docUrl.startsWith('http') ? docUrl : `${import.meta.env.VITE_API_URL.replace('/api', '')}${docUrl}`}
+                                href={docUrl.startsWith('http') ? docUrl : `${(import.meta.env.VITE_API_URL || '').replace('/api', '')}${docUrl}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 transition-colors inline-flex items-center"

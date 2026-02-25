@@ -86,7 +86,7 @@ const AdminFakeCheckins = () => {
                         <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold shrink-0 overflow-hidden">
                             {user?.profileImage ? (
                                 <img
-                                    src={`${import.meta.env.VITE_API_URL.replace('/api', '')}${user.profileImage}`}
+                                    src={`${(import.meta.env.VITE_API_URL || '').replace('/api', '')}${user.profileImage}`}
                                     alt={user?.name}
                                     className="w-full h-full object-cover"
                                 />

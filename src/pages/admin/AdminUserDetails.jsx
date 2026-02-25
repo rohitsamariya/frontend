@@ -151,7 +151,7 @@ const AdminUserDetails = () => {
     if (!userData) return <div className="p-8 text-center text-red-500">User not found</div>;
 
     const stats = userData.attendanceSummary || { totalPresent: 0, totalHalfDays: 0, totalAbsent: 0 };
-    const apiBase = import.meta.env.VITE_API_URL.replace('/api', '');
+    const apiBase = (import.meta.env.VITE_API_URL || '').replace('/api', '');
 
     return (
         <div className="max-w-6xl mx-auto space-y-6 pb-12">
