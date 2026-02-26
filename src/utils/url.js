@@ -18,9 +18,12 @@ export const getMediaUrl = (path) => {
     // If it's already a full URL, return it
     if (path.startsWith('http')) return path;
 
-    // Ensure path starts with a leading slash
+    // Trim trailing slash from base if present
+    const base = API_BASE.replace(/\/$/, '');
+
+    // Ensure path starts with a single leading slash
     const normalizedPath = path.startsWith('/') ? path : `/${path}`;
 
     // Concatenate base and path
-    return `${API_BASE}${normalizedPath}`;
+    return `${base}${normalizedPath}`;
 };
