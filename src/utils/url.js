@@ -15,9 +15,10 @@ export const API_BASE = API_URL.replace(/\/api\/?$/, '');
 export const getMediaUrl = (path) => {
     if (!path) return null;
 
-    // If it's already a full URL, return it
+    // If it's already a full URL (like Cloudinary), return it
     if (path.startsWith('http')) return path;
 
+    // Handle relative paths (legacy local storage)
     // Trim trailing slash from base if present
     const base = API_BASE.replace(/\/$/, '');
 
